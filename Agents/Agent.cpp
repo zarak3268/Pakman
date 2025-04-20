@@ -1,16 +1,26 @@
 #include <SFML/Graphics.hpp>
-#include "Agent.hpp"
 #include "../utils/utils.h"
-#include <iostream>
+#include "Agent.hpp"
 
-Agent::Agent(float speed, Direction direction) : speed(speed), direction(direction) {
+
+Agent::Agent(float speed, sf::Texture* texture) : speed(speed), direction(Direction::RIGHT), animation(FRAMES, 0.1) {
     this->setSize({50, 50});
-    this->setFillColor(sf::Color::Yellow);
     this->setOrigin(25, 25);
+    this->setTexture(texture);
+    this->setTextureRect(animation.getCurrentFrame());
 }
 
 void Agent::setDirection(Direction direction) {
     this->direction = direction;
+    if (direction == Direction::UP) {
+        animation.setColumn(PAKMAN_ANIMATION_UP);
+    } else if (direction == Direction::DOWN) {
+        animation.setColumn(PAKMAN_ANIMATION_DOWN);
+    } else if (direction == Direction::LEFT) {
+        animation.setColumn(PAKMAN_ANIMATION_LEFT);
+    } else {
+        animation.setColumn(PAKMAN_ANIMATION_RIGHT);
+    }
 }
 
 void Agent::setSpeed(float speed) {
@@ -18,7 +28,8 @@ void Agent::setSpeed(float speed) {
 }
 
 void Agent::update(float dt) {
-    this->setDirection(direction);
+    animation.update(dt);
+    this->setTextureRect(animation.getCurrentFrame());
 
     sf::Vector2f offset(0,0);
     if (this->direction == Direction::UP) {

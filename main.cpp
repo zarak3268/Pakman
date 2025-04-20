@@ -8,9 +8,7 @@ int main() {
     sf::Texture texture;
     texture.loadFromFile("assets/images/agent_sprites.png");
     
-    Agent agent;
-    agent.setTexture(&texture);
-    agent.setTextureRect({PAKMAN_POS_X, PAKMAN_POS_Y, PAKMAN_WIDTH, PAKMAN_HEIGHT});
+    Agent agent(250, &texture);
     float dt = 0;
     sf::Clock clock;
 
