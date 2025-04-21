@@ -1,10 +1,12 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Config.hpp>
 #include <iostream>
 #include "Agents/Agent.hpp"
 #include "Agents/Constants.hpp"
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(600, 600), "SFML works!");
+    sf::RenderWindow window(sf::VideoMode(600, 600), "Pakman");
+
     sf::Texture texture;
     texture.loadFromFile("assets/images/agent_sprites.png");
     
@@ -28,6 +30,9 @@ int main() {
                     agent.setDirection(Direction::RIGHT);
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
                     agent.setDirection(Direction::LEFT);
+            }
+            if (event.type == sf::Event::Resized) {
+                window.setView(sf::View(sf::FloatRect(0, 0, event.size.width, event.size.height)));
             }
         }
 
