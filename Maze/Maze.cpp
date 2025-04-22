@@ -20,7 +20,19 @@ Maze::Maze(vector<vector<int>> map, int width, int height) {
                 walls[y][x]->setPosition(x*wallSize.x, y*wallSize.y);
             }
         }
-    } 
+    }
+}
+
+void Maze::mitigateCollision(Agent& agent) {
+    for (vector<sf::RectangleShape*> vec : walls) {
+        for (sf::RectangleShape* wall : vec) {
+            if (wall && wall->getGlobalBounds().intersects(agent.getGlobalBounds())) {
+                while (wall->getGlobalBounds().intersects(agent.getGlobalBounds()))
+                    agent.moveReverse(1.0);
+                agent.stop();
+            }
+        }
+    }
 }
 
 void Maze::draw(sf::RenderWindow& window) {

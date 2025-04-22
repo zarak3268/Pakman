@@ -27,6 +27,10 @@ void Agent::setSpeed(float speed) {
     this->speed = speed;
 }
 
+void Agent::stop() {
+    this->direction = Direction::NONE;
+}
+
 void Agent::update(float dt) {
     animation.update(dt);
     this->setTextureRect(animation.getCurrentFrame());
@@ -38,10 +42,24 @@ void Agent::update(float dt) {
         offset.y = speed*dt;
     } else if (this->direction == Direction::LEFT) {
         offset.x = -1*speed*dt;
-    } else {
+    } else if (this->direction == Direction::RIGHT) {
         offset.x = speed*dt;
     }
 
+    this->move(offset);
+}
+
+void Agent::moveReverse(float distance) {
+    sf::Vector2f offset(0,0);
+    if (this->direction == Direction::UP) {
+        offset.y = distance;
+    } else if (this->direction == Direction::DOWN) {
+        offset.y = -1*distance;
+    } else if (this->direction == Direction::LEFT) {
+        offset.x = distance;
+    } else if (this->direction == Direction::RIGHT) {
+        offset.x = -1*distance;
+    }
     this->move(offset);
 }
 

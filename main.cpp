@@ -46,6 +46,7 @@ int main() {
     Maze maze(map, 600, 600);
 
     Agent agent(250, &texture);
+    agent.setPosition(300, 300);
     float dt = 0;
     sf::Clock clock;
 
@@ -72,6 +73,7 @@ int main() {
         }
 
         agent.update(dt);
+        maze.mitigateCollision(agent);
         window.clear(sf::Color::White);
         agent.draw(window);
         maze.draw(window);

@@ -5,7 +5,8 @@ enum Direction {
     UP,
     DOWN,
     LEFT,
-    RIGHT
+    RIGHT,
+    NONE
 };
 
 const int SPRITE_SHEET_WIDTH = 226;
