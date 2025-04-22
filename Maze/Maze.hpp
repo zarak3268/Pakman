@@ -6,14 +6,18 @@
 const std::string MAP_TEXTURE_PATH = "assets/images/maze_parts.png";
 
 const std::vector<sf::IntRect> WALL_FRAMES = {
-    {0, 27, 7, 8}, //Top right corner
-    {8, 27, 7, 8}, //Top left corner
-    {35, 27, 7, 8}, //Bottom right corner
-    {44, 27, 7, 8}, //Bottom left corner
-    {89, 27, 7, 8}, //Top horizontal
-    {107, 27, 7, 8}, //Bottom horizontal
-    {17, 27, 7, 8}, //Right vertical
-    {26, 27, 7, 8} //Left vertical
+    {0, 27, 8, 8}, //Top right corner
+    {9, 27, 8, 8}, //Top left corner
+    {36, 27, 8, 8}, //Bottom right corner
+    {45, 27, 8, 8}, //Bottom left corner
+    {90, 27, 8, 8}, //Top horizontal
+    {108, 27, 8, 8}, //Bottom horizontal
+    {18, 27, 8, 8}, //Right vertical
+    {27, 27, 8, 8}, //Left vertical
+    {54, 45, 8, 8}, //Top right corner, single line
+    {72, 45, 8, 8}, //Bottom right corner, single line
+    {63, 45, 8, 8}, //Top left corner, single line
+    {81, 45, 8, 8} //Bottom left corner, single line
 };
 
 class Maze {

@@ -13,7 +13,7 @@ Maze::Maze(vector<vector<int>> map, int width, int height) {
     for (int y = 0; y < Y; y++) {
         for (int x = 0; x < X; x++) {
             int wallType = map[y][x];
-            if (wallType >= 1 && wallType <= 9) {
+            if (wallType >= 1) {
                 walls[y][x] = new sf::RectangleShape(wallSize);
                 walls[y][x]->setTexture(mazeTexture);
                 walls[y][x]->setTextureRect(WALL_FRAMES[wallType - 1]);
