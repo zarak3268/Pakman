@@ -4,8 +4,8 @@
 
 
 Agent::Agent(float speed, sf::Texture* texture) : speed(speed), direction(Direction::RIGHT), animation(FRAMES, 0.1) {
-    this->setSize({50, 50});
-    this->setOrigin(25, 25);
+    this->setSize({30, 30});
+    this->setOrigin(15, 15);
     this->setTexture(texture);
     this->setTextureRect(animation.getCurrentFrame());
 }
