@@ -42,14 +42,15 @@ int main() {
 
     std::cout << map.size() << ", " << map[0].size() << std::endl;
 
-    sf::RenderWindow window(sf::VideoMode(1000, 1000), "Pakman");
+    sf::RenderWindow window(sf::VideoMode(1008, 1023), "Pakman");
     sf::Texture texture;
     texture.loadFromFile("assets/images/agent_sprites.png");
 
-    Maze maze(map, 1000, 1000);
+    Maze maze(map, 1008, 1023);
 
     Agent agent(250, &texture);
-    agent.setPosition(500, 490);
+    agent.setPosition(486, 775.5);
+
     float dt = 0;
     sf::Clock clock;
 
@@ -75,11 +76,13 @@ int main() {
             }
         }
 
-        agent.update(dt);
-        maze.mitigateCollision(agent);
         window.clear(sf::Color::White);
-        agent.draw(window);
+        maze.mitigateCollision(agent);
+        agent.update(dt);
+        maze.bound(agent);
+        maze.snap(agent);
         maze.draw(window);
+        agent.draw(window);
         window.display();
     }
 

@@ -20,11 +20,18 @@ const int PAKMAN_ANIMATION_DOWN = 3;
 class Agent : public sf::RectangleShape {
     public:
         Agent(float speed, sf::Texture* texture);
-        void update(float dt);
+
+        //getters
+        Direction getDirection();
+
+        //setters
         void setSpeed(float speed);
         void setDirection(Direction direction);
-        void stop();
+
+        //Member functions
         void moveReverse(float distance);
+        void stop();
+        void update(float dt);
         void draw(sf::RenderWindow& window);
     private:
         float speed;

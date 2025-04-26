@@ -1,13 +1,16 @@
 #include <SFML/Graphics.hpp>
-#include "../utils/utils.h"
 #include "Agent.hpp"
-
+#include <iostream>
 
 Agent::Agent(float speed, sf::Texture* texture) : speed(speed), direction(Direction::RIGHT), animation(FRAMES, 0.1) {
-    this->setSize({30, 30});
-    this->setOrigin(15, 15);
+    this->setSize({36, 33});
+    this->setOrigin(this->getSize().x/2, this->getSize().y/2);
     this->setTexture(texture);
     this->setTextureRect(animation.getCurrentFrame());
+}
+
+Direction Agent::getDirection() {
+    return direction;
 }
 
 void Agent::setDirection(Direction direction) {
@@ -25,6 +28,20 @@ void Agent::setDirection(Direction direction) {
 
 void Agent::setSpeed(float speed) {
     this->speed = speed;
+}
+
+void Agent::moveReverse(float distance) {
+    sf::Vector2f offset(0,0);
+    if (this->direction == Direction::UP) {
+        offset.y = distance;
+    } else if (this->direction == Direction::DOWN) {
+        offset.y = -1*distance;
+    } else if (this->direction == Direction::LEFT) {
+        offset.x = distance;
+    } else if (this->direction == Direction::RIGHT) {
+        offset.x = -1*distance;
+    }
+    this->move(offset);
 }
 
 void Agent::stop() {
@@ -49,25 +66,6 @@ void Agent::update(float dt) {
     this->move(offset);
 }
 
-void Agent::moveReverse(float distance) {
-    sf::Vector2f offset(0,0);
-    if (this->direction == Direction::UP) {
-        offset.y = distance;
-    } else if (this->direction == Direction::DOWN) {
-        offset.y = -1*distance;
-    } else if (this->direction == Direction::LEFT) {
-        offset.x = distance;
-    } else if (this->direction == Direction::RIGHT) {
-        offset.x = -1*distance;
-    }
-    this->move(offset);
-}
-
 void Agent::draw(sf::RenderWindow& window) {
-    sf::Vector2u windowSize = window.getSize();
-    sf::Vector2f position = this->getPosition();
-    position.x = wrap(position.x, 0, windowSize.x);
-    position.y = wrap(position.y, 0, windowSize.y);
-    this->setPosition(position);
     window.draw(*this);
 }
