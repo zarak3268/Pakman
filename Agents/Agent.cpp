@@ -2,8 +2,8 @@
 #include "Agent.hpp"
 #include <iostream>
 
-Agent::Agent(float speed, sf::Texture* texture) : speed(speed), direction(Direction::RIGHT), animation(FRAMES, 0.1) {
-    this->setSize({36, 33});
+Agent::Agent(sf::Vector2f size, float speed, sf::Texture* texture) : speed(speed), direction(Direction::RIGHT), animation(FRAMES, 0.1) {
+    this->setSize(size);
     this->setOrigin(this->getSize().x/2, this->getSize().y/2);
     this->setTexture(texture);
     this->setTextureRect(animation.getCurrentFrame());
@@ -21,7 +21,7 @@ void Agent::setDirection(Direction direction) {
         animation.setColumn(PAKMAN_ANIMATION_DOWN);
     } else if (direction == Direction::LEFT) {
         animation.setColumn(PAKMAN_ANIMATION_LEFT);
-    } else {
+    } else if (direction == Direction::RIGHT) {
         animation.setColumn(PAKMAN_ANIMATION_RIGHT);
     }
 }
@@ -42,10 +42,6 @@ void Agent::moveReverse(float distance) {
         offset.x = -1*distance;
     }
     this->move(offset);
-}
-
-void Agent::stop() {
-    this->direction = Direction::NONE;
 }
 
 void Agent::update(float dt) {

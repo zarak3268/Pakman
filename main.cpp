@@ -5,6 +5,11 @@
 #include "Agents/Constants.hpp"
 #include "Maze/Maze.hpp"
 
+const std::string AGENT_TEXTURES_FILE_PATH = "assets/images/agent_sprites.png";
+const sf::Vector2f WINDOW_SIZE = {1008, 1023};
+const sf::Vector2f PAKMAN_START_POSITION = {486, 775.5};
+const int AGENT_SPEED_NORMAL = 250;
+
 int main() {
     std::vector<std::vector<int>> map = {
         {  2, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 44, 43, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11,  1 },
@@ -42,14 +47,16 @@ int main() {
 
     std::cout << map.size() << ", " << map[0].size() << std::endl;
 
-    sf::RenderWindow window(sf::VideoMode(1008, 1023), "Pakman");
+    sf::RenderWindow window(sf::VideoMode(WINDOW_SIZE.x, WINDOW_SIZE.y), "Pakman");
     sf::Texture texture;
-    texture.loadFromFile("assets/images/agent_sprites.png");
+    texture.loadFromFile(AGENT_TEXTURES_FILE_PATH);
 
-    Maze maze(map, 1008, 1023);
+    Maze maze(map, WINDOW_SIZE.x, WINDOW_SIZE.y);
 
-    Agent agent(250, &texture);
-    agent.setPosition(486, 775.5);
+    Agent agent(maze.getTileSize(), AGENT_SPEED_NORMAL, &texture);
+    agent.setPosition(PAKMAN_START_POSITION);
+
+    std::cout << "Agent size: " << agent.getSize().x << ", " << agent.getSize().y << std::endl;
 
     float dt = 0;
     sf::Clock clock;
@@ -79,7 +86,7 @@ int main() {
         window.clear(sf::Color::White);
         maze.mitigateCollision(agent);
         agent.update(dt);
-        maze.bound(agent);
+        maze.wrap(agent);
         maze.snap(agent);
         maze.draw(window);
         agent.draw(window);

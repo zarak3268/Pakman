@@ -2,31 +2,35 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include "../Agents/Agent.hpp"
+#include "Tile.hpp"
 
 const std::string MAP_TEXTURE_PATH = "assets/images/maze_parts.png";
 
 class Maze {
     public:
-        Maze(std::vector<std::vector<int>> map, int width, int height);
-        ~Maze();
-        void mitigateCollision(Agent& agent);
+        Maze(const std::vector<std::vector<int>>& map, float width, float height);
         void loadMazeTexture();
         void initWallFrames();
-        void initWalls(std::vector<std::vector<int>> map, int width, int height);
-        std::pair<int, int> closestPoint(sf::Vector2f position);
+        void initTiles(const std::vector<std::vector<int>>& map, float width, float height);
+
+        sf::Vector2f getTileSize();
+
+        std::pair<int, int> getRowCol(sf::Vector2f position);
         bool canMove(Agent& agent);
-        void bound(Agent& agent);
+        void mitigateCollision(Agent& agent);
+        void wrap(Agent& agent);
         void snap(Agent& agent);
         void draw(sf::RenderWindow& window);
+
+        ~Maze();
     private:
         int rows;
         int cols;
-        int width;
-        int height;
-        float cellWidth;
-        float cellHeight;
-        std::vector<std::vector<int>> map;
-        std::vector<std::vector<sf::RectangleShape*>> walls;
+        float width;
+        float height;
+        float tileWidth;
+        float tileHeight;
+        std::vector<std::vector<Tile>> tiles;
         std::vector<sf::IntRect> wallFrames;
         sf::Texture* mazeTexture;
 };
