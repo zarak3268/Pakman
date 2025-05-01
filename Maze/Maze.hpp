@@ -16,11 +16,11 @@ class Maze {
         sf::Vector2f getTileSize();
 
         std::pair<int, int> getRowCol(sf::Vector2f position);
-        bool canMove(Agent& agent);
-        void mitigateCollision(Agent& agent);
-        void wrap(Agent& agent);
-        void snap(Agent& agent);
-        void draw(sf::RenderWindow& window);
+        bool canMove(Agent* agent);
+        void mitigateCollision(Agent* agent);
+        void wrap(Agent* agent);
+        void snap(Agent* agent);
+        void draw(sf::RenderWindow* window);
 
         ~Maze();
     private:

@@ -2,9 +2,11 @@
 #include "Agent.hpp"
 #include <iostream>
 
-Agent::Agent(sf::Vector2f size, float speed, sf::Texture* texture) : speed(speed), direction(Direction::RIGHT), animation(FRAMES, 0.1) {
+Agent::Agent(sf::Vector2f size, float speed) : speed(speed), direction(Direction::RIGHT), animation(FRAMES, 0.1) {
     this->setSize(size);
     this->setOrigin(this->getSize().x/2, this->getSize().y/2);
+    texture = new sf::Texture();
+    texture->loadFromFile(AGENT_TEXTURES_FILE_PATH);
     this->setTexture(texture);
     this->setTextureRect(animation.getCurrentFrame());
 }
@@ -62,6 +64,10 @@ void Agent::update(float dt) {
     this->move(offset);
 }
 
-void Agent::draw(sf::RenderWindow& window) {
-    window.draw(*this);
+void Agent::draw(sf::RenderWindow* window) {
+    window->draw(*this);
+}
+
+Agent::~Agent() {
+    delete texture;
 }

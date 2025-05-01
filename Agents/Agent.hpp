@@ -5,6 +5,8 @@
 #ifndef AGENT_H
 #define AGENT_H
 
+const std::string AGENT_TEXTURES_FILE_PATH = "assets/images/agent_sprites.png";
+
 const std::vector<std::vector<sf::IntRect>> FRAMES = {
     {{1, 0, 16, 16}, {17, 0, 16, 16}, {33, 0, 16, 16}},
     {{1, 16, 16, 16}, {17, 16, 16, 16}, {33, 0, 16, 16}},
@@ -19,7 +21,7 @@ const int PAKMAN_ANIMATION_DOWN = 3;
 
 class Agent : public sf::RectangleShape {
     public:
-        Agent(sf::Vector2f size, float speed, sf::Texture* texture);
+        Agent(sf::Vector2f size, float speed);
 
         //getters
         Direction getDirection();
@@ -31,11 +33,14 @@ class Agent : public sf::RectangleShape {
         //Member functions
         void moveReverse(float distance);
         void update(float dt);
-        void draw(sf::RenderWindow& window);
+        void draw(sf::RenderWindow* window);
+
+        ~Agent();
     private:
         float speed;
         Direction direction;
         Animation animation;
+        sf::Texture* texture;
 };
 
 #endif

@@ -1,6 +1,6 @@
 #include <cmath>
 #include <SFML/Graphics.hpp>
-#include "utils.h"
+#include "utils.hpp"
 
 float wrap(float value, float min, float max) {
     float range = max - min;
@@ -9,9 +9,9 @@ float wrap(float value, float min, float max) {
     return wrapped + min;
 }
 
-float getShortestDistance(const sf::RectangleShape& a, const sf::RectangleShape& b) {
-    sf::FloatRect rectA = a.getGlobalBounds();
-    sf::FloatRect rectB = b.getGlobalBounds();
+float getShortestDistance(const sf::RectangleShape* a, const sf::RectangleShape* b) {
+    sf::FloatRect rectA = a->getGlobalBounds();
+    sf::FloatRect rectB = b->getGlobalBounds();
 
     float dx = std::max(rectB.left - (rectA.left + rectA.width), rectA.left - (rectB.left + rectB.width));
     float dy = std::max(rectB.top - (rectA.top + rectA.height), rectA.top - (rectB.top + rectB.height));
