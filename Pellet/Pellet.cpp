@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Pellet.hpp"
 
-Pellet::Pellet(PelletType type, sf::Vector2f position, sf::Vector2f size) : type(type), animation(nullptr) {
+Pellet::Pellet(PelletType type, sf::Vector2f position, sf::Vector2i rowCol, sf::Vector2f size) : type(type), animation(nullptr), rowCol(rowCol) {
     loadTexture();
     setupAnimation();
     this->setSize(size);
@@ -22,6 +22,14 @@ void Pellet::setupAnimation() {
         this->setTextureRect(SMALL_PELLET_FRAME);
     else
         animation = new Animation(BIG_PELLET_FRAMES, 0.1);
+}
+
+PelletType Pellet::getType() {
+    return type;
+}
+
+sf::Vector2i Pellet::getRowCol() {
+    return rowCol;
 }
 
 void Pellet::update(float dt) {

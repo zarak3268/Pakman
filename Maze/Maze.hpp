@@ -15,7 +15,7 @@ class Maze {
 
         sf::Vector2f getTileSize();
 
-        std::pair<int, int> getRowCol(sf::Vector2f position);
+        sf::Vector2i getRowCol(sf::Vector2f position);
         bool canMove(Agent* agent);
         void mitigateCollision(Agent* agent);
         void wrap(Agent* agent);

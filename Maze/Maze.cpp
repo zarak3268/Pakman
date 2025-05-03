@@ -61,17 +61,17 @@ sf::Vector2f Maze::getTileSize() {
     return {tileWidth, tileHeight};
 }
 
-std::pair<int, int> Maze::getRowCol(sf::Vector2f position) {
+sf::Vector2i Maze::getRowCol(sf::Vector2f position) {
     position.x -= tileWidth/2;
     position.y -= tileHeight/2;
     int row = round(position.y/tileHeight);
     int col = round(position.x/tileWidth);
-    return {row, col};
+    return {col, row};
 }
 
 bool Maze::canMove(Agent* agent) {
-    std::pair<int, int> point = getRowCol(agent->getPosition());
-    int r = point.first, c = point.second;
+    sf::Vector2i point = getRowCol(agent->getPosition());
+    int r = point.y, c = point.x;
     if (agent->getDirection() == UP && tiles[r - 1][c].isWall() && getShortestDistance(agent, &tiles[r - 1][c]) < 1) {
         return false;
     } else if (agent->getDirection() == DOWN && tiles[r + 1][c].isWall() && getShortestDistance(agent, &tiles[r + 1][c]) < 1) {
@@ -103,9 +103,9 @@ void Maze::wrap(Agent* agent) {
 
 void Maze::snap(Agent* agent) {
     sf::Vector2f position = agent->getPosition();
-    std::pair<int, int> point = getRowCol(position);
-    int r = point.first;
-    int c = point.second;
+    sf::Vector2i point = getRowCol(position);
+    int r = point.y;
+    int c = point.x;
     if (agent->getDirection() == Direction::LEFT || agent->getDirection() == Direction::RIGHT) {
         position.y = tiles[r][c].getPosition().y;
     } else if (agent->getDirection() == Direction::UP || agent->getDirection() == Direction::DOWN) {

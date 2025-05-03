@@ -7,21 +7,14 @@
 
 const std::string AGENT_TEXTURES_FILE_PATH = "assets/images/agent_sprites.png";
 
-const std::vector<std::vector<sf::IntRect>> FRAMES = {
-    {{1, 0, 16, 16}, {17, 0, 16, 16}, {33, 0, 16, 16}},
-    {{1, 16, 16, 16}, {17, 16, 16, 16}, {33, 0, 16, 16}},
-    {{1, 32, 16, 16}, {17, 32, 16, 16}, {33, 0, 16, 16}},
-    {{1, 48, 16, 16}, {17, 48, 16, 16}, {33, 0, 16, 16}}
-};
-
-const int PAKMAN_ANIMATION_RIGHT = 0;
-const int PAKMAN_ANIMATION_LEFT = 1;
-const int PAKMAN_ANIMATION_UP = 2;
-const int PAKMAN_ANIMATION_DOWN = 3;
+const int ANIMATION_RIGHT = 0;
+const int ANIMATION_LEFT = 1;
+const int ANIMATION_UP = 2;
+const int ANIMATION_DOWN = 3;
 
 class Agent : public sf::RectangleShape {
     public:
-        Agent(sf::Vector2f size, float speed);
+        Agent(sf::Vector2f position, sf::Vector2f size, float speed);
 
         //getters
         Direction getDirection();
@@ -29,6 +22,7 @@ class Agent : public sf::RectangleShape {
         //setters
         void setDirection(Direction direction);
         void setSpeed(float speed);
+        void setAnimation(Animation* animation);
 
         //Member functions
         void moveReverse(float distance);
@@ -39,8 +33,12 @@ class Agent : public sf::RectangleShape {
     private:
         float speed;
         Direction direction;
-        Animation animation;
+        Animation* animation = nullptr;
         sf::Texture* texture;
+
+        void initialize(sf::Vector2f position, sf::Vector2f size, float speed);
+        void loadTexture();
+
 };
 
 #endif

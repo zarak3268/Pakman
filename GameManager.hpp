@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Config.hpp>
 #include <iostream>
-#include "Agents/Agent.hpp"
+#include "Agents/Pakman/Pakman.hpp"
 #include "Agents/Constants.hpp"
 #include "Maze/Maze.hpp"
 #include "Pellet/Pellet.hpp"
@@ -59,7 +59,7 @@ class GameManager {
         sf::RenderWindow* window;
         Maze* maze;
         std::vector<Pellet*> pellets;
-        Agent* agent;
+        Pakman* pakman;
         sf::Clock clock;
 
         void pollEvents();

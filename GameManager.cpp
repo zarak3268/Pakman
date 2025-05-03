@@ -21,17 +21,16 @@ void GameManager::initPellets() {
         for (int c = 0; c < COLS; c++) {
             sf::Vector2f position = {c*size.x + size.x/2, r*size.y + size.y/2};
             if (MAP[r][c] == -1) {
-                pellets.push_back(new Pellet(PelletType::Small, position, size));
+                pellets.push_back(new Pellet(PelletType::Small, position, maze->getRowCol(position), size));
             } else if (MAP[r][c] == -2) {
-                pellets.push_back(new Pellet(PelletType::Big, position, size));
+                pellets.push_back(new Pellet(PelletType::Big, position, maze->getRowCol(position), size));
             }
         }
     }
 }
 
 void GameManager::initAgents() {
-    agent = new Agent(maze->getTileSize(), AGENT_SPEED_NORMAL);
-    agent->setPosition(PAKMAN_START_POSITION);
+    pakman = new Pakman(PAKMAN_START_POSITION, maze->getTileSize(), AGENT_SPEED_NORMAL);
 }
 
 void GameManager::pollEvents() {
@@ -42,13 +41,13 @@ void GameManager::pollEvents() {
         }
         if (event.type == sf::Event::KeyPressed) {
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-                agent->setDirection(Direction::UP);
+                pakman->setDirection(Direction::UP);
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-                agent->setDirection(Direction::DOWN);
+                pakman->setDirection(Direction::DOWN);
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-                agent->setDirection(Direction::RIGHT);
+                pakman->setDirection(Direction::RIGHT);
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-                agent->setDirection(Direction::LEFT);
+                pakman->setDirection(Direction::LEFT);
         }
         if (event.type == sf::Event::Resized) {
             window->setView(sf::View(sf::FloatRect(0, 0, event.size.width, event.size.height)));
@@ -57,10 +56,11 @@ void GameManager::pollEvents() {
 }
 
 void GameManager::update(float dt) {
-    maze->mitigateCollision(agent);
-    agent->update(dt);
-    maze->wrap(agent);
-    maze->snap(agent);
+    maze->mitigateCollision(pakman);
+    pakman->update(dt);
+    maze->wrap(pakman);
+    maze->snap(pakman);
+    pakman->eat(pellets, maze->getRowCol(pakman->getPosition()));
     for (Pellet* pellet : pellets) pellet->update(dt);
 }
 
@@ -68,7 +68,7 @@ void GameManager::draw() {
     window->clear(sf::Color::White);
     maze->draw(window);
     for (Pellet* pellet : pellets) pellet->draw(window);
-    agent->draw(window);
+    pakman->draw(window);
     window->display();
 }
 
@@ -84,7 +84,7 @@ void GameManager::loop() {
 GameManager::~GameManager() {
     delete window;
     delete maze;
-    delete agent;
+    delete pakman;
     for (Pellet* pellet : pellets) {
         delete pellet;
     }
