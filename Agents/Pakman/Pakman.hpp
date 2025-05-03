@@ -11,5 +11,5 @@ const std::vector<std::vector<sf::IntRect>> PAKMAN_FRAMES = {
 class Pakman : public Agent {
     public:
         Pakman(sf::Vector2f position, sf::Vector2f size, float speed);
-        int eat(std::vector<Pellet*>& pellets, sf::Vector2i pakmanRowCol);
+        int eat(std::vector<Pellet*>& pellets, std::pair<int, int> pakmanGridPosition);
 };

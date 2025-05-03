@@ -21,9 +21,9 @@ void GameManager::initPellets() {
         for (int c = 0; c < COLS; c++) {
             sf::Vector2f position = {c*size.x + size.x/2, r*size.y + size.y/2};
             if (MAP[r][c] == -1) {
-                pellets.push_back(new Pellet(PelletType::Small, position, maze->getRowCol(position), size));
+                pellets.push_back(new Pellet(PelletType::Small, position, maze->getGridPosition(position), size));
             } else if (MAP[r][c] == -2) {
-                pellets.push_back(new Pellet(PelletType::Big, position, maze->getRowCol(position), size));
+                pellets.push_back(new Pellet(PelletType::Big, position, maze->getGridPosition(position), size));
             }
         }
     }
@@ -60,12 +60,12 @@ void GameManager::update(float dt) {
     pakman->update(dt);
     maze->wrap(pakman);
     maze->snap(pakman);
-    pakman->eat(pellets, maze->getRowCol(pakman->getPosition()));
+    pakman->eat(pellets, maze->getGridPosition(pakman->getPosition()));
     for (Pellet* pellet : pellets) pellet->update(dt);
 }
 
 void GameManager::draw() {
-    window->clear(sf::Color::White);
+    window->clear(sf::Color::Black);
     maze->draw(window);
     for (Pellet* pellet : pellets) pellet->draw(window);
     pakman->draw(window);

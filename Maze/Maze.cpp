@@ -46,12 +46,12 @@ void Maze::initTiles(const vector<vector<int>>& map, float width, float height) 
             tiles[r][c] = Tile({tileWidth, tileHeight});
             tiles[r][c].setPosition(c*tileWidth + tileWidth/2, r*tileHeight + tileHeight/2);
             tiles[r][c].setOrigin(tiles[r][c].getSize().x/2, tiles[r][c].getSize().y/2);
-            tiles[r][c].setOutlineColor(sf::Color::Red);
-            tiles[r][c].setOutlineThickness(0.5);
             if (wallType >= 1) {
                 tiles[r][c].setType(TileType::WALL);
                 tiles[r][c].setTexture(mazeTexture);
                 tiles[r][c].setTextureRect(wallFrames[wallType - 1]);
+            } else {
+                tiles[r][c].setFillColor(sf::Color::Black);
             }
         }
     }
@@ -61,17 +61,17 @@ sf::Vector2f Maze::getTileSize() {
     return {tileWidth, tileHeight};
 }
 
-sf::Vector2i Maze::getRowCol(sf::Vector2f position) {
+std::pair<int, int> Maze::getGridPosition(sf::Vector2f position) {
     position.x -= tileWidth/2;
     position.y -= tileHeight/2;
     int row = round(position.y/tileHeight);
     int col = round(position.x/tileWidth);
-    return {col, row};
+    return {row, col};
 }
 
 bool Maze::canMove(Agent* agent) {
-    sf::Vector2i point = getRowCol(agent->getPosition());
-    int r = point.y, c = point.x;
+    std::pair<int, int> gridPosition = getGridPosition(agent->getPosition());
+    int r = gridPosition.first, c = gridPosition.second;
     if (agent->getDirection() == UP && tiles[r - 1][c].isWall() && getShortestDistance(agent, &tiles[r - 1][c]) < 1) {
         return false;
     } else if (agent->getDirection() == DOWN && tiles[r + 1][c].isWall() && getShortestDistance(agent, &tiles[r + 1][c]) < 1) {
@@ -103,9 +103,9 @@ void Maze::wrap(Agent* agent) {
 
 void Maze::snap(Agent* agent) {
     sf::Vector2f position = agent->getPosition();
-    sf::Vector2i point = getRowCol(position);
-    int r = point.y;
-    int c = point.x;
+    std::pair<int, int> gridPosition = getGridPosition(position);
+    int r = gridPosition.first;
+    int c = gridPosition.second;
     if (agent->getDirection() == Direction::LEFT || agent->getDirection() == Direction::RIGHT) {
         position.y = tiles[r][c].getPosition().y;
     } else if (agent->getDirection() == Direction::UP || agent->getDirection() == Direction::DOWN) {

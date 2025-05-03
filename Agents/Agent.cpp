@@ -4,7 +4,6 @@
 
 Agent::Agent(sf::Vector2f position, sf::Vector2f size, float speed) {
     initialize(position, size, speed);
-    loadTexture();
 }
 
 void Agent::initialize(sf::Vector2f position, sf::Vector2f size, float speed) {
@@ -13,12 +12,6 @@ void Agent::initialize(sf::Vector2f position, sf::Vector2f size, float speed) {
     this->setOrigin(this->getSize().x/2, this->getSize().y/2);
     this->speed = speed;
     this->direction = Direction::RIGHT;
-}
-
-void Agent::loadTexture() {
-    texture = new sf::Texture();
-    texture->loadFromFile(AGENT_TEXTURES_FILE_PATH);
-    this->setTexture(texture);
 }
 
 Direction Agent::getDirection() {
@@ -42,6 +35,12 @@ void Agent::setDirection(Direction direction) {
 
 void Agent::setSpeed(float speed) {
     this->speed = speed;
+}
+
+void Agent::loadTexture(std::string path) {
+    texture = new sf::Texture();
+    texture->loadFromFile(path);
+    this->setTexture(texture);
 }
 
 void Agent::setAnimation(Animation* animation) {
@@ -88,6 +87,6 @@ void Agent::draw(sf::RenderWindow* window) {
 }
 
 Agent::~Agent() {
-    delete texture;
-    delete animation;
+    if (texture) delete texture;
+    if (animation) delete animation;
 }

@@ -19,11 +19,11 @@ const sf::IntRect SMALL_PELLET_FRAME = {117, 18, 8, 8};
 
 class Pellet : public sf::RectangleShape{
     public:
-        Pellet(PelletType type, sf::Vector2f position, sf::Vector2i rowCol, sf::Vector2f size);
+        Pellet(PelletType type, sf::Vector2f position, std::pair<int, int> gridPosition, sf::Vector2f size);
         void loadTexture();
         void setupAnimation();
         PelletType getType();
-        sf::Vector2i getRowCol();
+        std::pair<int, int> getGridPosition();
         void update(float dt);
         void draw(sf::RenderWindow* window);
         ~Pellet();
@@ -31,7 +31,7 @@ class Pellet : public sf::RectangleShape{
         PelletType type;
         Animation* animation;
         sf::Texture* texture;
-        sf::Vector2i rowCol;
+        std::pair<int, int> gridPosition;
 };
 
 #endif

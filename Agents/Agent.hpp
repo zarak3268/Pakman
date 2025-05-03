@@ -5,8 +5,6 @@
 #ifndef AGENT_H
 #define AGENT_H
 
-const std::string AGENT_TEXTURES_FILE_PATH = "assets/images/agent_sprites.png";
-
 const int ANIMATION_RIGHT = 0;
 const int ANIMATION_LEFT = 1;
 const int ANIMATION_UP = 2;
@@ -22,6 +20,7 @@ class Agent : public sf::RectangleShape {
         //setters
         void setDirection(Direction direction);
         void setSpeed(float speed);
+        void loadTexture(std::string path);
         void setAnimation(Animation* animation);
 
         //Member functions
@@ -34,11 +33,9 @@ class Agent : public sf::RectangleShape {
         float speed;
         Direction direction;
         Animation* animation = nullptr;
-        sf::Texture* texture;
+        sf::Texture* texture = nullptr;
 
         void initialize(sf::Vector2f position, sf::Vector2f size, float speed);
-        void loadTexture();
-
 };
 
 #endif

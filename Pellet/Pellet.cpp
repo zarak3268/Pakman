@@ -1,14 +1,12 @@
 #include <iostream>
 #include "Pellet.hpp"
 
-Pellet::Pellet(PelletType type, sf::Vector2f position, sf::Vector2i rowCol, sf::Vector2f size) : type(type), animation(nullptr), rowCol(rowCol) {
+Pellet::Pellet(PelletType type, sf::Vector2f position, std::pair<int, int> gridPosition, sf::Vector2f size) : type(type), animation(nullptr), gridPosition(gridPosition) {
     loadTexture();
     setupAnimation();
     this->setSize(size);
     this->setPosition(position);
     this->setOrigin(this->getSize().x/2, this->getSize().y/2);
-    this->setOutlineColor(sf::Color::Red);
-    this->setOutlineThickness(0.5);
 }
 
 void Pellet::loadTexture() {
@@ -28,8 +26,8 @@ PelletType Pellet::getType() {
     return type;
 }
 
-sf::Vector2i Pellet::getRowCol() {
-    return rowCol;
+std::pair<int, int> Pellet::getGridPosition() {
+    return gridPosition;
 }
 
 void Pellet::update(float dt) {
