@@ -70,7 +70,7 @@ std::pair<int, int> Maze::getGridPosition(sf::Vector2f position) {
 }
 
 bool Maze::canMove(Agent* agent) {
-    std::pair<int, int> gridPosition = getGridPosition(agent->getPosition());
+    std::pair<int, int> gridPosition = agent->getGridPosition();
     int r = gridPosition.first, c = gridPosition.second;
     if (agent->getDirection() == UP && tiles[r - 1][c].isWall() && getShortestDistance(agent, &tiles[r - 1][c]) < 1) {
         return false;
@@ -103,7 +103,7 @@ void Maze::wrap(Agent* agent) {
 
 void Maze::snap(Agent* agent) {
     sf::Vector2f position = agent->getPosition();
-    std::pair<int, int> gridPosition = getGridPosition(position);
+    std::pair<int, int> gridPosition = agent->getGridPosition();
     int r = gridPosition.first;
     int c = gridPosition.second;
     if (agent->getDirection() == Direction::LEFT || agent->getDirection() == Direction::RIGHT) {

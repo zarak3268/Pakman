@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "Agent.hpp"
 #include <iostream>
+#include <cmath>
 
 Agent::Agent(sf::Vector2f position, sf::Vector2f size, float speed) {
     initialize(position, size, speed);
@@ -16,6 +17,16 @@ void Agent::initialize(sf::Vector2f position, sf::Vector2f size, float speed) {
 
 Direction Agent::getDirection() {
     return direction;
+}
+
+std::pair<int, int> Agent::getGridPosition() {
+    sf::Vector2f position = this->getPosition();
+    sf::Vector2f size = this->getSize();
+    position.x -= size.x/2;
+    position.y -= size.y/2;
+    int row = round(position.y/size.y);
+    int col = round(position.x/size.x);
+    return {row, col};
 }
 
 void Agent::setDirection(Direction direction) {

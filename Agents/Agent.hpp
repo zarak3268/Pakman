@@ -16,6 +16,7 @@ class Agent : public sf::RectangleShape {
 
         //getters
         Direction getDirection();
+        std::pair<int, int> getGridPosition();
 
         //setters
         void setDirection(Direction direction);

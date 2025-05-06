@@ -60,7 +60,7 @@ void GameManager::update(float dt) {
     pakman->update(dt);
     maze->wrap(pakman);
     maze->snap(pakman);
-    pakman->eat(pellets, maze->getGridPosition(pakman->getPosition()));
+    pakman->eat(pellets);
     for (Pellet* pellet : pellets) pellet->update(dt);
 }
 
