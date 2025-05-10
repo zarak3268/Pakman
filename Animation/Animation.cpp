@@ -6,7 +6,7 @@ Animation::Animation(std::vector<std::vector<sf::IntRect>> frames, float switchT
     currentFrameIdx.y = 0;
 }
 
-void Animation::setColumn(uint y) {
+void Animation::setAnimationSequence(uint y) {
     currentFrameIdx.y = y;
 }
 

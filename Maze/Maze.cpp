@@ -69,49 +69,49 @@ std::pair<int, int> Maze::getGridPosition(sf::Vector2f position) {
     return {row, col};
 }
 
-bool Maze::canMove(Agent* agent) {
-    std::pair<int, int> gridPosition = agent->getGridPosition();
+bool Maze::canMove(Character* character) {
+    std::pair<int, int> gridPosition = character->getGridPosition();
     int r = gridPosition.first, c = gridPosition.second;
-    if (agent->getDirection() == UP && tiles[r - 1][c].isWall() && getShortestDistance(agent, &tiles[r - 1][c]) < 1) {
+    if (character->getDirection() == UP && tiles[r - 1][c].isWall() && getShortestDistance(character, &tiles[r - 1][c]) < 1) {
         return false;
-    } else if (agent->getDirection() == DOWN && tiles[r + 1][c].isWall() && getShortestDistance(agent, &tiles[r + 1][c]) < 1) {
+    } else if (character->getDirection() == DOWN && tiles[r + 1][c].isWall() && getShortestDistance(character, &tiles[r + 1][c]) < 1) {
         return false;
-    } else if (agent->getDirection() == LEFT && tiles[r][c - 1].isWall() && getShortestDistance(agent, &tiles[r][c - 1]) < 1) {
+    } else if (character->getDirection() == LEFT && tiles[r][c - 1].isWall() && getShortestDistance(character, &tiles[r][c - 1]) < 1) {
         return false;
-    } else if (agent->getDirection() == RIGHT && tiles[r][c + 1].isWall() && getShortestDistance(agent, &tiles[r][c + 1]) < 1) {
+    } else if (character->getDirection() == RIGHT && tiles[r][c + 1].isWall() && getShortestDistance(character, &tiles[r][c + 1]) < 1) {
         return false;
     }
     return true;
 }
 
-void Maze::mitigateCollision(Agent* agent) {
-    if (!canMove(agent)) agent->setDirection(Direction::NONE);
+void Maze::mitigateCollision(Character* character) {
+    if (!canMove(character)) character->setDirection(Direction::NONE);
 }
 
-void Maze::wrap(Agent* agent) {
+void Maze::wrap(Character* character) {
     auto f = [](float value, float min, float max) {
         float range = max - min;
         float wrapped = std::fmod(value - min, range);
         if (wrapped < 0) wrapped += range;
         return wrapped + min;
     };
-    sf::Vector2f position = agent->getPosition();
+    sf::Vector2f position = character->getPosition();
     position.x = f(position.x, 0, width);
     position.y = f(position.y, 0, height);
-    agent->setPosition(position);
+    character->setPosition(position);
 }
 
-void Maze::snap(Agent* agent) {
-    sf::Vector2f position = agent->getPosition();
-    std::pair<int, int> gridPosition = agent->getGridPosition();
+void Maze::snap(Character* character) {
+    sf::Vector2f position = character->getPosition();
+    std::pair<int, int> gridPosition = character->getGridPosition();
     int r = gridPosition.first;
     int c = gridPosition.second;
-    if (agent->getDirection() == Direction::LEFT || agent->getDirection() == Direction::RIGHT) {
+    if (character->getDirection() == Direction::LEFT || character->getDirection() == Direction::RIGHT) {
         position.y = tiles[r][c].getPosition().y;
-    } else if (agent->getDirection() == Direction::UP || agent->getDirection() == Direction::DOWN) {
+    } else if (character->getDirection() == Direction::UP || character->getDirection() == Direction::DOWN) {
         position.x = tiles[r][c].getPosition().x;
     }
-    agent->setPosition(position);
+    character->setPosition(position);
 }
 
 void Maze::draw(sf::RenderWindow* window) {

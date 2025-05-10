@@ -1,10 +1,10 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Config.hpp>
 #include <iostream>
-#include "Agents/Pakman/Pakman.hpp"
-#include "Agents/Constants.hpp"
+#include "Entity/Characters/Pakman/Pakman.hpp"
+#include "Entity/Constants.hpp"
 #include "Maze/Maze.hpp"
-#include "Pellet/Pellet.hpp"
+#include "Entity/Pellet/Pellet.hpp"
 
 const sf::Vector2f WINDOW_SIZE = {1008, 1023};
 const sf::Vector2f PAKMAN_START_POSITION = {486, 775.5};
@@ -52,7 +52,7 @@ class GameManager {
         void initWindow();
         void initMaze();
         void initPellets();
-        void initAgents();
+        void initCharacters();
         void loop();
         ~GameManager();
     private:

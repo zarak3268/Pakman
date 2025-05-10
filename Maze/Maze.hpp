@@ -1,7 +1,7 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include <string>
-#include "../Agents/Agent.hpp"
+#include "../Entity/Characters/Character.hpp"
 #include "Tile.hpp"
 
 const std::string MAP_TEXTURE_PATH = "assets/images/maze_parts.png";
@@ -16,10 +16,10 @@ class Maze {
         sf::Vector2f getTileSize();
 
         std::pair<int, int> getGridPosition(sf::Vector2f position);
-        bool canMove(Agent* agent);
-        void mitigateCollision(Agent* agent);
-        void wrap(Agent* agent);
-        void snap(Agent* agent);
+        bool canMove(Character* character);
+        void mitigateCollision(Character* character);
+        void wrap(Character* character);
+        void snap(Character* character);
         void draw(sf::RenderWindow* window);
 
         ~Maze();

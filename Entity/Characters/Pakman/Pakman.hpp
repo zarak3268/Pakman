@@ -1,4 +1,4 @@
-#include "../Agent.hpp"
+#include "../Character.hpp"
 #include "../../Pellet/Pellet.hpp"
 
 const std::vector<std::vector<sf::IntRect>> PAKMAN_FRAMES = {
@@ -8,7 +8,7 @@ const std::vector<std::vector<sf::IntRect>> PAKMAN_FRAMES = {
     {{1, 48, 16, 16}, {17, 48, 16, 16}, {33, 0, 16, 16}}
 };
 
-class Pakman : public Agent {
+class Pakman : public Character {
     public:
         Pakman(sf::Vector2f position, sf::Vector2f size, float speed);
         int eat(std::vector<Pellet*>& pellets);

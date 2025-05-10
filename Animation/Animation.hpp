@@ -6,7 +6,7 @@
 class Animation {
     public:
         Animation(std::vector<std::vector<sf::IntRect>> frames, float switchTime);
-        void setColumn(uint y);
+        void setAnimationSequence(uint y);
         sf::IntRect getCurrentFrame();
         void update(float dt);
     private:

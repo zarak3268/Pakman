@@ -4,7 +4,7 @@ GameManager::GameManager() {
     initWindow();
     initMaze();
     initPellets();
-    initAgents();
+    initCharacters();
 }
 
 void GameManager::initWindow() {
@@ -21,15 +21,15 @@ void GameManager::initPellets() {
         for (int c = 0; c < COLS; c++) {
             sf::Vector2f position = {c*size.x + size.x/2, r*size.y + size.y/2};
             if (MAP[r][c] == -1) {
-                pellets.push_back(new Pellet(PelletType::Small, position, maze->getGridPosition(position), size));
+                pellets.push_back(new Pellet(position, size, PelletType::Small));
             } else if (MAP[r][c] == -2) {
-                pellets.push_back(new Pellet(PelletType::Big, position, maze->getGridPosition(position), size));
+                pellets.push_back(new Pellet(position, size, PelletType::Big));
             }
         }
     }
 }
 
-void GameManager::initAgents() {
+void GameManager::initCharacters() {
     pakman = new Pakman(PAKMAN_START_POSITION, maze->getTileSize(), AGENT_SPEED_NORMAL);
 }
 

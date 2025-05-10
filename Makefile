@@ -1,8 +1,8 @@
 SFMLFLAGS=-lsfml-graphics -lsfml-window -lsfml-system
 OUT_DIR=build
 
-Pakman: $(OUT_DIR)/main.o GameManager.o Agent.o Pakman.o utils.o Animation.o Maze.o Tile.o Pellet.o
-	g++ $(OUT_DIR)/main.o $(OUT_DIR)/GameManager.o $(OUT_DIR)/Agent.o $(OUT_DIR)/Pakman.o $(OUT_DIR)/utils.o $(OUT_DIR)/Animation.o $(OUT_DIR)/Maze.o $(OUT_DIR)/Tile.o $(OUT_DIR)/Pellet.o -o $(OUT_DIR)/Pakman $(SFMLFLAGS)
+Pakman: $(OUT_DIR)/main.o GameManager.o Entity.o Character.o Pakman.o utils.o Animation.o Maze.o Tile.o Pellet.o
+	g++ $(OUT_DIR)/main.o $(OUT_DIR)/GameManager.o $(OUT_DIR)/Character.o $(OUT_DIR)/Entity.o $(OUT_DIR)/Pakman.o $(OUT_DIR)/utils.o $(OUT_DIR)/Animation.o $(OUT_DIR)/Maze.o $(OUT_DIR)/Tile.o $(OUT_DIR)/Pellet.o -o $(OUT_DIR)/Pakman $(SFMLFLAGS)
 
 $(OUT_DIR)/main.o: main.cpp | $(OUT_DIR)
 	g++ -c main.cpp -o $(OUT_DIR)/main.o
@@ -10,11 +10,14 @@ $(OUT_DIR)/main.o: main.cpp | $(OUT_DIR)
 GameManager.o: GameManager.cpp
 	g++ -c GameManager.cpp -o $(OUT_DIR)/GameManager.o
 
-Agent.o: Agents/Agent.cpp
-	g++ -c Agents/Agent.cpp -o $(OUT_DIR)/Agent.o
+Entity.o: Entity/Entity.cpp
+	g++ -c Entity/Entity.cpp -o $(OUT_DIR)/Entity.o
 
-Pakman.o: Agents/Pakman/Pakman.cpp
-	g++ -c Agents/Pakman/Pakman.cpp -o $(OUT_DIR)/Pakman.o
+Character.o: Entity/Characters/Character.cpp
+	g++ -c Entity/Characters/Character.cpp -o $(OUT_DIR)/Character.o
+
+Pakman.o: Entity/Characters/Pakman/Pakman.cpp
+	g++ -c Entity/Characters/Pakman/Pakman.cpp -o $(OUT_DIR)/Pakman.o
 
 utils.o: utils/utils.cpp
 	g++ -c utils/utils.cpp -o $(OUT_DIR)/utils.o
@@ -28,8 +31,8 @@ Maze.o: Maze/Maze.cpp
 Tile.o: Maze/Tile.cpp
 	g++ -c Maze/Tile.cpp -o $(OUT_DIR)/Tile.o
 
-Pellet.o: Pellet/Pellet.cpp
-	g++ -c Pellet/Pellet.cpp -o $(OUT_DIR)/Pellet.o
+Pellet.o: Entity/Pellet/Pellet.cpp
+	g++ -c Entity/Pellet/Pellet.cpp -o $(OUT_DIR)/Pellet.o
 
 $(OUT_DIR):
 	mkdir -p $(OUT_DIR)

@@ -1,9 +1,8 @@
 #include "Pakman.hpp"
-#include "../../utils/utils.hpp"
+#include "../../../utils/utils.hpp"
 
-Pakman::Pakman(sf::Vector2f position, sf::Vector2f size, float speed) : Agent(position, size, speed) {
-    this->loadTexture(AGENT_TEXTURES_FILE_PATH);
-    this->setAnimation(new Animation(PAKMAN_FRAMES, 0.1));
+Pakman::Pakman(sf::Vector2f position, sf::Vector2f size, float speed) : Character(position, size, speed) {
+    setAnimation(new Animation(PAKMAN_FRAMES, 0.1));
 }
 
 int Pakman::eat(std::vector<Pellet*>& pellets) {
