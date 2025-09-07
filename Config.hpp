@@ -6,6 +6,7 @@
 const sf::Vector2f WINDOW_SIZE = {1008, 1023};
 
 const sf::Vector2f PAKMAN_START_POSITION = {486, 775.5};
+const sf::Vector2f GHOST_START_POSITION = {450, 676.5};
 const int CHARACTER_SPEED_NORMAL = 250;
 
 const int ROWS = 31;

@@ -1,4 +1,5 @@
 #include "PlayState.hpp"
+#include <iostream>
 
 PlayState::PlayState() {
     initMaze();
@@ -26,6 +27,7 @@ void PlayState::initPellets() {
 
 void PlayState::initCharacters() {
     pakman = new Pakman(PAKMAN_START_POSITION, maze->getTileSize(), CHARACTER_SPEED_NORMAL);
+    ghost = new Ghost(GHOST_START_POSITION, maze->getTileSize(), CHARACTER_SPEED_NORMAL);
 }
 
 void PlayState::pollEvents(sf::RenderWindow* window) {
@@ -35,14 +37,22 @@ void PlayState::pollEvents(sf::RenderWindow* window) {
             window->close();
         }
         if (event.type == sf::Event::KeyPressed) {
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
                 pakman->setDirection(Direction::UP);
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+                ghost->setDirection(Direction::UP);
+            }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
                 pakman->setDirection(Direction::DOWN);
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+                ghost->setDirection(Direction::DOWN);
+            }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
                 pakman->setDirection(Direction::RIGHT);
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+                ghost->setDirection(Direction::RIGHT);
+            }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
                 pakman->setDirection(Direction::LEFT);
+                ghost->setDirection(Direction::LEFT);
+            }
         }
         if (event.type == sf::Event::Resized) {
             window->setView(sf::View(sf::FloatRect(0, 0, event.size.width, event.size.height)));
@@ -54,10 +64,21 @@ void PlayState::update(float dt) {
     maze->mitigateCollision(pakman);
     maze->wrap(pakman);
     maze->snap(pakman);
+    maze->mitigateCollision(ghost);
+    maze->wrap(ghost);
+    maze->snap(ghost);
     pakman->eat(pellets);
     pakman->update(dt);
+    ghost->update(dt);
     for (Pellet* pellet : pellets) pellet->update(dt);
     if (pellets.empty()) gameOver = true;
+    sf::FloatRect intersection;
+    if (ghost->getGlobalBounds().intersects(pakman->getGlobalBounds(), intersection)) {
+        float overlapArea = intersection.width * intersection.height;
+        if (overlapArea > 500) {
+            gameOver = true;   
+        }
+    }
 }
 
 void PlayState::draw(sf::RenderWindow* window) {
@@ -65,6 +86,7 @@ void PlayState::draw(sf::RenderWindow* window) {
     maze->draw(window);
     for (Pellet* pellet : pellets) pellet->draw(window);
     pakman->draw(window);
+    ghost->draw(window);
     window->display();
 }
 
@@ -80,6 +102,7 @@ void PlayState::loop(sf::RenderWindow* window) {
 PlayState::~PlayState() {
     delete maze;
     delete pakman;
+    delete ghost;
     for (Pellet* pellet : pellets) {
         delete pellet;
     }
