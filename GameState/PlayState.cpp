@@ -27,7 +27,7 @@ void PlayState::initPellets() {
 
 void PlayState::initCharacters() {
     pakman = new Pakman(PAKMAN_START_POSITION, maze->getTileSize(), CHARACTER_SPEED_NORMAL);
-    ghost = new Ghost(GHOST_START_POSITION, maze->getTileSize(), CHARACTER_SPEED_NORMAL);
+    ghost = new Ghost(GHOST_START_POSITION, maze->getTileSize(), CHARACTER_SPEED_NORMAL*0.80);
 }
 
 void PlayState::pollEvents(sf::RenderWindow* window) {
@@ -39,19 +39,15 @@ void PlayState::pollEvents(sf::RenderWindow* window) {
         if (event.type == sf::Event::KeyPressed) {
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
                 pakman->setDirection(Direction::UP);
-                ghost->setDirection(Direction::UP);
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
                 pakman->setDirection(Direction::DOWN);
-                ghost->setDirection(Direction::DOWN);
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
                 pakman->setDirection(Direction::RIGHT);
-                ghost->setDirection(Direction::RIGHT);
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
                 pakman->setDirection(Direction::LEFT);
-                ghost->setDirection(Direction::LEFT);
             }
         }
         if (event.type == sf::Event::Resized) {
@@ -64,6 +60,7 @@ void PlayState::update(float dt) {
     maze->mitigateCollision(pakman);
     maze->wrap(pakman);
     maze->snap(pakman);
+    ghost->chase(maze, pakman);
     maze->mitigateCollision(ghost);
     maze->wrap(ghost);
     maze->snap(ghost);
@@ -76,7 +73,7 @@ void PlayState::update(float dt) {
     if (ghost->getGlobalBounds().intersects(pakman->getGlobalBounds(), intersection)) {
         float overlapArea = intersection.width * intersection.height;
         if (overlapArea > 500) {
-            gameOver = true;   
+            gameOver = true;
         }
     }
 }

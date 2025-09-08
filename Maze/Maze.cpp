@@ -84,6 +84,14 @@ bool Maze::canMove(Character* character) {
     return true;
 }
 
+bool Maze::isWall(int row, int col) {
+    return tiles[row][col].isWall();
+}
+
+bool Maze::withinBounds(int row, int col) {
+    return row >= 0 && col >= 0 && row < tiles.size() && col < tiles[0].size();
+}
+
 void Maze::mitigateCollision(Character* character) {
     if (!canMove(character)) character->setDirection(Direction::NONE);
 }

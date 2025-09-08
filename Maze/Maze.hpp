@@ -1,3 +1,5 @@
+#pragma once
+
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include <string>
@@ -16,6 +18,8 @@ class Maze {
         sf::Vector2f getTileSize();
 
         std::pair<int, int> getGridPosition(sf::Vector2f position);
+        bool isWall(int row, int col);
+        bool withinBounds(int row, int col);
         bool canMove(Character* character);
         void mitigateCollision(Character* character);
         void wrap(Character* character);
